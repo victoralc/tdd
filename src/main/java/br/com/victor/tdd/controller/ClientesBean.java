@@ -1,0 +1,85 @@
+package br.com.victor.tdd.controller;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.faces.bean.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import br.com.victor.tdd.controller.util.FacesUtils;
+import br.com.victor.tdd.dao.ClienteDao;
+import br.com.victor.tdd.model.Cliente;
+import br.com.victor.tdd.util.Transacional;
+
+@Named
+@RequestScoped
+public class ClientesBean {
+
+	private Cliente cliente = new Cliente();
+	private List<Cliente> clientes = new ArrayList<>();
+	
+	@Inject
+	private ClienteDao dao;
+	@Inject
+	private FacesUtils facesUtils;
+	
+	@PostConstruct
+	public void init() {
+		this.clientes = this.dao.lista();
+	}
+	
+	/**
+	 * Lista todos os clientes
+	 */
+	public void lista() {
+		this.clientes = dao.lista();
+	}
+	
+	/**
+	 * Grava novo cliente no banco
+	 */
+	@Transacional
+	public String salva() {
+		dao.salva(this.cliente);
+		facesUtils.info("Cliente criado com sucesso!");
+		return "lista?faces-redirect=true";
+	}
+	
+	/**
+	 * Remove cliente do banco
+	 */
+	@Transacional
+	public String remove(Cliente cliente) {
+		dao.remove(cliente);
+		facesUtils.info("Cliente removido com sucesso!");
+		return "lista?faces-redirect=true"; 
+	}
+	
+	/**
+	 * Carrega cliente para edição
+	 */
+	public String edita(Integer id) {
+		this.cliente = dao.carrega(id);
+		return null;
+	}
+	
+	/**
+	 * Atualiza dados do cliente no banco
+	 */
+	@Transacional
+	public String atualiza() {
+		dao.atualiza(this.cliente);
+		facesUtils.info("Cliente atualizado com sucesso!");
+		return "lista?faces-redirect=true";
+	}
+	
+	public Cliente getCliente() {
+		return cliente;
+	}
+	public List<Cliente> getClientes() {
+		return clientes;
+	}
+	
+}

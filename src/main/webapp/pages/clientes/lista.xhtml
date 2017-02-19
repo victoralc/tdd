@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+	template="/pages/template/_template.xhtml">
+
+	<ui:define name="content">
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">
+					Clientes 
+				</h1>
+			</div>
+		</div>
+		<!-- /.row -->
+		
+		<h:form prependId="false">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									<h:commandButton value="Listar"
+										styleClass="btn btn-info">
+										<f:ajax render="@form" />
+									</h:commandButton>
+									&#160;
+									<h:commandLink value="Novo" action="novo">
+										<f:ajax render="@form" />
+									</h:commandLink>
+								</div>
+							</div>
+							<br></br>
+							<div class="table-responsive">
+								<h:dataTable id="tabelaLivros" value="#{clientesBean.clientes}"
+									var="cliente"
+									styleClass="table table-striped table-bordered table-hover">
+									<h:column>
+										<f:facet name="header">ID</f:facet>
+										<h:outputText value="#{cliente.id}"></h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Name</f:facet>
+										<h:outputText value="#{cliente.nome}"></h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Email</f:facet>
+										<h:outputText value="#{cliente.email}"></h:outputText>
+									</h:column>
+									<h:column>
+										<f:facet name="header">Ações</f:facet>
+										<h:commandLink value="Edit" action="edit">
+											<f:ajax render="@form" />
+											<f:setPropertyActionListener value="#{cliente}"
+												target="#{clientesBean.cliente}" />
+										</h:commandLink>
+										&#160;
+										<h:commandLink value="Remove"
+											action="#{clientesBean.remove(cliente)}">
+											<f:ajax render="@form" />
+										</h:commandLink>
+									</h:column>
+								</h:dataTable>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+
+</ui:composition>
