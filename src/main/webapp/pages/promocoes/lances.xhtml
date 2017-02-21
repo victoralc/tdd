@@ -1,70 +1,100 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	template="/pages/templates/template_padrao.xhtml">
-	
-	<ui:define name="conteudo">
-	
-		<f:metadata>
-			<f:viewParam name="id" value="#{id}" required="true" />
-			<f:viewAction action="#{promocoesBean.gerenciar(id)}" />
-		</f:metadata>
-	
-		<div id="container" align="left">
-			<h1>Registrar lances dos clientes</h1>
-			
-			<h:form id="form" prependId="false">
-			
-				<h:inputHidden id="id" value="#{promocoesBean.promocao.id}"/>
-				<div>
-			        <h:outputLabel value="Nome" for="nome" />
-			        #{promocoesBean.promocao.nome}
-						
-					<h:outputLabel value="Valor máximo do lance" for="valor" />
-					<h:outputText value="#{promocoesBean.promocao.valorMaximo}" styleClass="money">
-						<f:convertNumber locale="pt_BR" minFractionDigits="2" type="currency" />
-					</h:outputText>
-					
-					<h:outputLabel value="Receber em dinheiro?" for="dinheiro" />
-					#{promocoesBean.promocao.receberEmDinheiro ? 'Sim' : 'Não'}
-					
-					<h:outputLabel value="Local de entrega" for="entrega" />
-					#{promocoesBean.promocao.entrega}
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+<ui:composition template="/pages/template/_template.xhtml">
+
+	<ui:define name="content">
+
+		<!-- Page Heading -->
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Registrar lances dos clientes</h1>
+			</div>
+		</div>
+
+		<h:form id="form" prependId="false">
+			<t:saveState value="#{promocoesBean.promocao}" />
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+									<div class="form-group">
+										<h:outputLabel value="Nome da Promoção" for="nome" />
+										<h:outputText id="nome" value="#{promocoesBean.promocao.nome}" />
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Valor máximo do lance" for="valor" />
+										<h:outputText value="#{promocoesBean.promocao.valorMaximo}"
+											styleClass="money">
+											<f:convertNumber locale="pt_BR" minFractionDigits="2"
+												type="currency" />
+										</h:outputText>
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Receber em dinheiro?" for="dinheiro" />
+										#{promocoesBean.promocao.receberEmDinheiro ? 'Sim' : 'Não'}
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Local de entrega" for="entrega" />
+										#{promocoesBean.promocao.entrega}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
-				
-				<h:panelGroup id="subform" styleClass="lances" layout="block">
-					<h:selectOneMenu id="cliente" value="#{promocoesBean.lance.cliente.id}"
-						pt:autofocus="autofocus" required="true" title="Cliente">
-						<f:selectItems value="#{promocoesBean.clientes}" var="c" 
+			</div>
+
+			<div class="row">
+				<div class="col-xs-2">
+					<h:selectOneMenu id="cliente" styleClass="form-control"
+						value="#{promocoesBean.lance.cliente.id}" pt:autofocus="autofocus"
+						required="true" title="Cliente">
+						<f:selectItems value="#{promocoesBean.clientes}" var="c"
 							itemLabel="#{c.nome}" itemValue="#{c.id}" />
 					</h:selectOneMenu>
-					<h:inputText id="valor" value="#{promocoesBean.lance.valor}" 
-						pt:placeholder="valor"  title="Valor do lance">
+				</div>
+				<div class="col-xs-2">
+					<h:inputText id="valor" value="#{promocoesBean.lance.valor}"
+						pt:placeholder="valor" title="Valor do lance"
+						styleClass="form-control">
 						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 					</h:inputText>
+				</div>
+
+				<div class="col-xs-2">
 					<h:inputText id="cupom" value="#{promocoesBean.lance.cupom}"
-						pt:placeholder="cupom" title="Cupom fiscal" 
-						required="true" maxlength="10">
+						styleClass="form-control" pt:placeholder="cupom"
+						title="Cupom fiscal" required="true" maxlength="10">
 					</h:inputText>
-					<h:commandButton id="btn-lance" value="dar lance" action="#{promocoesBean.registra}">
-						<f:ajax execute="form" render="subform lances :mensagens" />
-					</h:commandButton>
-				</h:panelGroup>
-				
-				<h:dataTable
-					id="lances" 
-					value="#{promocoesBean.promocao.lances}"
-					var="lance" styleClass="dados"
-					rowClasses="odd, even">
+				</div>
+				<h:commandButton id="btn-lance" value="dar lance"
+					action="#{promocoesBean.registra}" styleClass="btn btn-success">
+					<f:ajax execute="form" render="subform lances :mensagens" />
+				</h:commandButton>
+			</div>
+			<br></br>
+			<div class="table-responsive">
+				<h:dataTable id="lances" value="#{promocoesBean.promocao.lances}"
+					var="lance"
+					styleClass="table table-striped table-bordered table-hover">
 					<h:column>
 						<f:facet name="header">
 							<h:outputText value="Data" />
 						</f:facet>
 						<h:outputText value="#{lance.data}">
-							<f:convertDateTime pattern="dd/MM/yyyy"/>
+							<f:convertDateTime pattern="dd/MM/yyyy" />
 						</h:outputText>
 					</h:column>
 					<h:column>
@@ -74,7 +104,8 @@
 					<h:column>
 						<f:facet name="header">Valor</f:facet>
 						<h:outputText value="#{lance.valor}" styleClass="money">
-							<f:convertNumber locale="pt_BR" minFractionDigits="2" type="currency" />
+							<f:convertNumber locale="pt_BR" minFractionDigits="2"
+								type="currency" />
 						</h:outputText>
 					</h:column>
 					<h:column>
@@ -82,13 +113,15 @@
 						#{lance.cupom.numero}
 					</h:column>
 				</h:dataTable>
-				
+
 				<div class="acoes-principais">
-					<h:link value="Voltar" outcome="lista"/>
+					<h:link value="Voltar" outcome="lista" />
 				</div>
-			</h:form>
-			
-		</div>
+			</div>
+
+		</h:form>
+
 	</ui:define>
-		
+
 </ui:composition>
+</html>

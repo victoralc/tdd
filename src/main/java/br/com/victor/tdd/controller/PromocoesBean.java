@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -95,6 +95,10 @@ public class PromocoesBean implements Serializable {
 	private void resetaLance() {
 		this.lance = new Lance();
 		this.lance.setCliente(new Cliente());
+	}
+	
+	public void setPromocao(Promocao promocao) {
+		this.promocao = promocao;
 	}
 	
 	public Promocao getPromocao() {

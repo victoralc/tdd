@@ -1,48 +1,91 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-	template="/pages/templates/template_padrao.xhtml">
-	
-	<ui:define name="conteudo">
-		<div id="container" align="left">
-			<h1>Nova Promoção</h1>
-			
-			<h:form prependId="false">
-		        <h:outputLabel value="Nome" for="nome" />
-				<h:inputText id="nome" styleClass="texto-longo"
-					value="#{promocoesBean.promocao.nome}" pt:autofocus="autofocus"
-					label="Nome" required="true" />
-					
-				<h:outputLabel value="Valor máximo do lance" for="valor" />
-				<h:inputText id="valor"
-					value="#{promocoesBean.promocao.valorMaximo}" 
-					label="Valor máximo" required="true">
-					<f:convertNumber locale="pt_BR" maxFractionDigits="2" minFractionDigits="2" />
-				</h:inputText>
-				
-				<h:outputLabel value="Receber em dinheiro?" for="dinheiro" />
-				<h:selectBooleanCheckbox id="dinheiro" label="Receber em dinheiro?"
-					value="#{promocoesBean.promocao.receberEmDinheiro}" />
-				
-				<h:outputLabel value="Local de entrega" for="entrega" />
-				<h:selectOneMenu id="entrega" value="#{promocoesBean.promocao.entrega}"
-					required="true" label="Local de entrega">
-					<f:selectItem itemLabel="Selecione um local de entrega" noSelectionOption="true" />
-					<f:selectItem itemLabel="Loja" itemValue="LOJA" />
-					<f:selectItem itemLabel="Residência do cliente" itemValue="RESIDENCIA" />
-				</h:selectOneMenu>
-				
-				<div class="acoes-principais">
-					<h:link value="Voltar" outcome="lista"/>
-					&#160;
-					<h:commandButton id="btn-salvar" value="Salvar" action="#{promocoesBean.salva}" />
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+<ui:composition template="/pages/template/_template.xhtml">
+	<ui:define name="content">
+		<h:form>
+			<!-- Page Heading -->
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">Promoções</h1>
 				</div>
-			</h:form>
-			
-		</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-6">
+
+									<h:messages id="messages" infoClass="alert alert-success"
+										errorClass="alert alert-danger"
+										warnClass="alert alert-warning" />
+
+									<div class="form-group">
+										<h:outputLabel value="Nome" for="nome" />
+										<h:inputText id="nome" styleClass="form-control"
+											value="#{promocoesBean.promocao.nome}"
+											pt:autofocus="autofocus" label="Nome" required="true" />
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Valor máximo do lance" for="valor" />
+										<h:inputText id="valor" styleClass="form-control"
+											value="#{promocoesBean.promocao.valorMaximo}"
+											label="Valor máximo" required="true">
+										</h:inputText>
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Receber em dinheiro?" for="dinheiro" />
+										<h:selectBooleanCheckbox id="dinheiro"
+											label="Receber em dinheiro?"
+											value="#{promocoesBean.promocao.receberEmDinheiro}" />
+									</div>
+
+									<div class="form-group">
+										<h:outputLabel value="Local de entrega" for="entrega" /><br />
+										<h:selectOneMenu id="entrega"
+											value="#{promocoesBean.promocao.entrega}" required="true"
+											label="Local de entrega">
+											<f:selectItem itemLabel="Selecione um local de entrega"
+												noSelectionOption="true" />
+											<f:selectItem itemLabel="Loja" itemValue="LOJA" />
+											<f:selectItem itemLabel="Residência do cliente"
+												itemValue="RESIDENCIA" />
+										</h:selectOneMenu>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-6">
+											<h:commandButton id="submit" value="Salvar"
+												action="#{promocoesBean.salva}" styleClass="btn btn-info">
+												<f:ajax render="@form :messages" execute="@form" />
+											</h:commandButton>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h:link value="Voltar"
+						outcome="/pages/clientes/lista?faces-redirect=true" />
+				</div>
+			</div>
+
+		</h:form>
 	</ui:define>
-		
 </ui:composition>
+</html>

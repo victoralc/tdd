@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.faces.bean.RequestScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -78,6 +78,11 @@ public class ClientesBean {
 	public Cliente getCliente() {
 		return cliente;
 	}
+	
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+	
 	public List<Cliente> getClientes() {
 		return clientes;
 	}

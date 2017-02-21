@@ -50,6 +50,12 @@ public class Promocao {
 		this.lances.add(lance);
 	}
 	
+	public Promocao() {}
+	
+	public Promocao(String nome) {
+		this.nome = nome;
+	}
+	
 	/**
 	 * Verifica se promoção pode ser encerrada
 	 */

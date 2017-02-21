@@ -10,14 +10,20 @@
 		<!-- Page Heading -->
 		<div class="row">
 			<div class="col-lg-12">
-				<h1 class="page-header">
-					Clientes 
-				</h1>
+				<h1 class="page-header">Clientes</h1>
 			</div>
 		</div>
 		<!-- /.row -->
-		
+
 		<h:form prependId="false">
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h:messages id="messages" infoClass="alert alert-success"
+						errorClass="alert alert-danger" warnClass="alert alert-warning" />
+				</div>
+			</div>
+			<!-- /.row -->
 
 			<div class="row">
 				<div class="col-lg-12">
@@ -25,8 +31,7 @@
 						<div class="panel-body">
 							<div class="row">
 								<div class="col-lg-12">
-									<h:commandButton value="Listar"
-										styleClass="btn btn-info">
+									<h:commandButton value="Listar" styleClass="btn btn-info">
 										<f:ajax render="@form" />
 									</h:commandButton>
 									&#160;
@@ -54,7 +59,7 @@
 									</h:column>
 									<h:column>
 										<f:facet name="header">Ações</f:facet>
-										<h:commandLink value="Edit" action="edit">
+										<h:commandLink value="Edit" action="edita">
 											<f:ajax render="@form" />
 											<f:setPropertyActionListener value="#{cliente}"
 												target="#{clientesBean.cliente}" />
