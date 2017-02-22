@@ -45,9 +45,36 @@ public class Promocao {
 	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Lance> lances = new ArrayList<>();
 	
-	//Registra um novo lance
 	public void registra(Lance lance) {
+		if (clienteExcedeuNumeroMaximoDeLances(lance) 
+				|| clienteDandoLancesEmSequencia(lance))
+			return;
+		
 		this.lances.add(lance);
+	}
+
+	private boolean clienteExcedeuNumeroMaximoDeLances(Lance lance) {
+		int total = totalDeLancesDo(lance.getCliente());
+		return total >= 5;
+	}
+
+	private int totalDeLancesDo(Cliente cliente) {
+		int total = 0;
+		for (Lance l : this.lances) {
+			if (l.getCliente().equals(cliente)) {
+				total++;
+			}
+		}
+		return total;
+	}
+
+	private boolean clienteDandoLancesEmSequencia(Lance lance) {
+		return !lances.isEmpty() 
+				&& clienteDoUltimoLance().equals(lance.getCliente());
+	}
+
+	private Cliente clienteDoUltimoLance() {
+		return lances.get(lances.size()-1).getCliente();
 	}
 	
 	public Promocao() {}
